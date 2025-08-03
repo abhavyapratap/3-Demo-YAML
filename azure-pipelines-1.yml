@@ -35,3 +35,11 @@ steps:
     command: 'plan'
     workingDirectory: 'environment/dev'
     environmentServiceNameAzureRM: 'Service Connection'
+
+- task: TerraformTask@5
+  displayName: Terraform Apply
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: 'environment/dev'
+    environmentServiceNameAzureRM: 'Service Connection'
