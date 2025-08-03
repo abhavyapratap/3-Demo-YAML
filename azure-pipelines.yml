@@ -1,0 +1,23 @@
+pr:
+- main
+
+pool:
+  DevOps-Poool
+
+steps:
+- task: TerraformInstaller@1
+  displayName: "Terraform Install"
+  inputs: 
+   terraformVersion: "1.12.2"
+
+- task: TerraformTask@5
+  displayName: "Terraform Init"
+  inputs:
+   provider: 'azurerm'
+   command: 'init'
+   workingDirectory: 'environment/dev'
+   backendServiceArm: 'Service Connection'
+   backendAzureRmResourceGroupName: 'rg-gaming-dev'
+   backendAzureRmStorageAccountName: 'gamingstorageacc'
+   backendAzureRmContainerName: 'gtafivecontainer'
+   backendAzureRmKey: 'bhavya.tfstate'
