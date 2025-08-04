@@ -12,6 +12,18 @@ parameters:
   type: boolean
   default: true
 
+- name: runValidate
+  type: boolean
+  default: true
+
+- name: runPlan
+  type: boolean
+  default: true
+
+- name: runApply
+  type: boolean
+  default: true
+
 steps:
 - task: TerraformInstaller@1
   displayName: Terraform installer
@@ -20,6 +32,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform init
+  condition: eq('${{ parameters.runInit }}', true)
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -32,6 +45,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Validate
+  condition: eq('${{ parameters.runValidate }}', true)
   inputs:
     provider: 'azurerm'
     command: 'validate'
@@ -39,6 +53,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Plan
+  condition: eq('${{ parameters.runPlan }}', true)
   inputs:
     provider: 'azurerm'
     command: 'plan'
@@ -46,6 +61,8 @@ steps:
     environmentServiceNameAzureRM: 'Service Connection'
 
 - task: TerraformTask@5
+  displayName: Terraform Apply
+  condition: eq('${{ parameters.runApply }}', true)
   inputs:
     provider: 'azurerm'
     command: 'apply'
