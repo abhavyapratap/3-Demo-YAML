@@ -32,7 +32,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Init
-  condition: eq('${{ parameters.runInit }}', false)
+  condition: eq('${{ parameters.runInit }}', true)
   inputs:
     provider: 'azurerm'
     command: 'init'
@@ -45,7 +45,7 @@ steps:
   
 - task: TerraformTask@5
   displayName: Terraform Validate
-  condition: eq('${{ parameters.runValidate }}', false)
+  condition: eq('${{ parameters.runValidate }}', true)
   inputs:
     provider: 'azurerm'
     command: 'validate'
@@ -53,7 +53,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Plan
-  condition: eq('${{ parameters.runPlan }}', false)
+  condition: eq('${{ parameters.runPlan }}', true)
   inputs:
     provider: 'azurerm'
     command: 'plan'
@@ -62,7 +62,7 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Apply
-  condition: eq('${{ parameters.runApply }}', false)
+  condition: eq('${{ parameters.runApply }}', true)
   inputs:
     provider: 'azurerm'
     command: 'apply'
