@@ -6,7 +6,23 @@ pool:
 
 variables: 
   workingDirectory: 'environment/dev'
-  provider: 'azurerm'
+
+parameters:
+- name: runInit
+  type: boolean
+  default: true
+
+- name: runValidate
+  type: boolean
+  default: true
+
+- name: runPlan
+  type: boolean
+  default: true
+
+- name: runApply
+  type: boolean
+  default: true
 
 steps:
 - task: TerraformInstaller@1
@@ -16,8 +32,9 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Init
+  condition: eq('${{ parameters.runInit }}', true)
   inputs:
-    provider: "$(provider)"
+    provider: 'azurerm'
     command: 'init'
     workingDirectory: "$(workingDirectory)"
     backendServiceArm: 'Service Connection'
@@ -28,23 +45,26 @@ steps:
   
 - task: TerraformTask@5
   displayName: Terraform Validate
+  condition: eq('${{ parameters.runValidate }}', true)
   inputs:
-    provider: "$(provider)"
+    provider: 'azurerm'
     command: 'validate'
     workingDirectory: "$(workingDirectory)"
 
 - task: TerraformTask@5
   displayName: Terraform Plan
+  condition: eq('${{ parameters.runPlan }}', true)
   inputs:
-    provider: "$(provider)"
+    provider: 'azurerm'
     command: 'plan'
     workingDirectory: "$(workingDirectory)"
     environmentServiceNameAzureRM: 'Service Connection'
 
 - task: TerraformTask@5
   displayName: Terraform Apply
+  condition: eq('${{ parameters.runApply }}', true)
   inputs:
-    provider: "$(provider)"
+    provider: 'azurerm'
     command: 'apply'
     workingDirectory: "$(workingDirectory)"
     environmentServiceNameAzureRM: 'Service Connection'
