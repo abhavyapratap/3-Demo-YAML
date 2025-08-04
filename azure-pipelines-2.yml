@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  Agent-Poool
+  DevOps-Poool
 
 variables:
   workingDirectory: 'environment/dev'
