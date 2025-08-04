@@ -1,73 +1,70 @@
-trigger: none
-
+trigger:
+- none
+ 
 pool:
-  name: DevOps-Poool
-
+  DevOps-Poool
+ 
 variables: 
   workingDirectory: 'environment/dev'
-
+ 
 parameters:
 - name: runInit
   type: boolean
-  default: true
-  displayName: 'Run Terraform Init?'
-
+  default: false
+ 
 - name: runValidate
   type: boolean
   default: true
-  displayName: 'Run Terraform Validate?'
-
+ 
 - name: runPlan
   type: boolean
   default: true
-  displayName: 'Run Terraform Plan?'
-
+ 
 - name: runApply
   type: boolean
-  default: false
-  displayName: 'Run Terraform Apply?'
-
+  default: true
+ 
 steps:
 - task: TerraformInstaller@1
   displayName: Terraform Installer
   inputs: 
     terraformVersion: latest
-
+ 
 - task: TerraformTask@5
   displayName: Terraform Init
   condition: eq('${{ parameters.runInit }}', true)
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(workingDirectory)'
+    workingDirectory: "$(workingDirectory)"
     backendServiceArm: 'Service Connection'
     backendAzureRmResourceGroupName: 'rg-bhavya'
     backendAzureRmStorageAccountName: 'bhavyastorageacc'
     backendAzureRmContainerName: 'bhavyacontainer'
     backendAzureRmKey: 'bhavya.tfstate'
-
+  
 - task: TerraformTask@5
   displayName: Terraform Validate
   condition: eq('${{ parameters.runValidate }}', true)
   inputs:
     provider: 'azurerm'
     command: 'validate'
-    workingDirectory: '$(workingDirectory)'
-
+    workingDirectory: "$(workingDirectory)"
+ 
 - task: TerraformTask@5
   displayName: Terraform Plan
   condition: eq('${{ parameters.runPlan }}', true)
   inputs:
     provider: 'azurerm'
     command: 'plan'
-    workingDirectory: '$(workingDirectory)'
+    workingDirectory: "$(workingDirectory)"
     environmentServiceNameAzureRM: 'Service Connection'
-
+ 
 - task: TerraformTask@5
   displayName: Terraform Apply
   condition: eq('${{ parameters.runApply }}', true)
   inputs:
     provider: 'azurerm'
     command: 'apply'
-    workingDirectory: '$(workingDirectory)'
+    workingDirectory: "$(workingDirectory)"
     environmentServiceNameAzureRM: 'Service Connection'
