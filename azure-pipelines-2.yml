@@ -7,6 +7,11 @@ pool:
 variables:
   workingDirectory: 'environment/dev'
 
+parameters:
+- name: runInit
+  type: boolean
+  default: true
+
 steps:
 - task: TerraformInstaller@1
   displayName: Terraform installer
