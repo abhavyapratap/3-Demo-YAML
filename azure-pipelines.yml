@@ -10,7 +10,7 @@ variables:
 parameters:
 - name: runInit
   type: boolean
-  default: false
+  default: true
  
 - name: runValidate
   type: boolean
@@ -22,7 +22,7 @@ parameters:
  
 - name: runApply
   type: boolean
-  default: true
+  default: false
  
 steps:
 - task: TerraformInstaller@1
